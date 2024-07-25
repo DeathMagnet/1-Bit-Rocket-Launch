@@ -1,7 +1,44 @@
-[gd_scene load_steps=3 format=3 uid="uid://ch588k0wyoh2r"]
+[gd_scene load_steps=7 format=3 uid="uid://ch588k0wyoh2r"]
 
 [ext_resource type="Script" path="res://world.gd" id="1_ffu36"]
 [ext_resource type="Texture2D" uid="uid://235voffk64nf" path="res://sprites/rocket_ship.png" id="1_y3w2o"]
+[ext_resource type="Texture2D" uid="uid://cigddu56ah0pf" path="res://sprites/rocket_ship_launch.png" id="3_8ch7t"]
+
+[sub_resource type="Animation" id="Animation_aclxw"]
+resource_name = "launch"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Rocket:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(640, 576), Vector2(640, -200)]
+}
+
+[sub_resource type="Animation" id="Animation_ofj5l"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Rocket:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(640, 352)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_l2n55"]
+_data = {
+"RESET": SubResource("Animation_ofj5l"),
+"launch": SubResource("Animation_aclxw")
+}
 
 [node name="World" type="Node2D"]
 script = ExtResource("1_ffu36")
@@ -10,3 +47,12 @@ script = ExtResource("1_ffu36")
 position = Vector2(640, 352)
 scale = Vector2(2, 2)
 texture = ExtResource("1_y3w2o")
+
+[node name="RocketFlare" type="Sprite2D" parent="Rocket"]
+position = Vector2(0, 16)
+texture = ExtResource("3_8ch7t")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_l2n55")
+}
