@@ -1,8 +1,23 @@
-[gd_scene load_steps=7 format=3 uid="uid://ch588k0wyoh2r"]
+[gd_scene load_steps=8 format=3 uid="uid://ch588k0wyoh2r"]
 
 [ext_resource type="Script" path="res://world.gd" id="1_ffu36"]
 [ext_resource type="Texture2D" uid="uid://235voffk64nf" path="res://sprites/rocket_ship.png" id="1_y3w2o"]
 [ext_resource type="Texture2D" uid="uid://cigddu56ah0pf" path="res://sprites/rocket_ship_launch.png" id="3_8ch7t"]
+[ext_resource type="Texture2D" uid="uid://bo1k30ntgg7nn" path="res://sprites/launch_button.png" id="4_oh7uu"]
+
+[sub_resource type="Animation" id="Animation_ofj5l"]
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Rocket:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(640, 552), Vector2(640, -264)]
+}
 
 [sub_resource type="Animation" id="Animation_aclxw"]
 resource_name = "launch"
@@ -19,21 +34,6 @@ tracks/0/keys = {
 "values": [Vector2(640, 576), Vector2(640, -200)]
 }
 
-[sub_resource type="Animation" id="Animation_ofj5l"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Rocket:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(640, 352)]
-}
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_l2n55"]
 _data = {
 "RESET": SubResource("Animation_ofj5l"),
@@ -44,11 +44,12 @@ _data = {
 script = ExtResource("1_ffu36")
 
 [node name="Rocket" type="Sprite2D" parent="."]
-position = Vector2(640, 352)
+position = Vector2(640, 552)
 scale = Vector2(2, 2)
 texture = ExtResource("1_y3w2o")
 
 [node name="RocketFlare" type="Sprite2D" parent="Rocket"]
+visible = false
 position = Vector2(0, 16)
 texture = ExtResource("3_8ch7t")
 
@@ -56,3 +57,14 @@ texture = ExtResource("3_8ch7t")
 libraries = {
 "": SubResource("AnimationLibrary_l2n55")
 }
+
+[node name="LaunchButton" type="TextureButton" parent="."]
+offset_left = 1168.0
+offset_top = 672.0
+offset_right = 1216.0
+offset_bottom = 688.0
+scale = Vector2(2, 2)
+texture_normal = ExtResource("4_oh7uu")
+stretch_mode = 5
+
+[connection signal="button_down" from="LaunchButton" to="." method="_on_launch_button_button_down"]
